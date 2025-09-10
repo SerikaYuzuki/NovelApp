@@ -6,12 +6,26 @@
 //
 
 import SwiftUI
+import NovelCore
 
 @main
 struct NovelApp: App {
+    private let deps = AppDependencies()
+    @State private var state = AppState()
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(state)
+                .onAppear {
+                    if let loaded = try? deps.repo.loadRecent() {
+                        state.document = loaded
+                    }
+                }
+                .onChange(of: state.document) {
+                    try? deps.repo.save(state.document)
+                }
         }
     }
 }
+

@@ -6,6 +6,14 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		0520BDDC2E69E1BE003D0173 /* EditorKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0520BDDB2E69E1BE003D0173 /* EditorKit */; };
+		0520BDDE2E69E1BE003D0173 /* NovelCore in Frameworks */ = {isa = PBXBuildFile; productRef = 0520BDDD2E69E1BE003D0173 /* NovelCore */; };
+		0520BDE02E69E1BE003D0173 /* NovelStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 0520BDDF2E69E1BE003D0173 /* NovelStorage */; };
+		0520BDE22E69E1BE003D0173 /* NovelUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0520BDE12E69E1BE003D0173 /* NovelUI */; };
+		0520BDE42E69E1BE003D0173 /* PreviewSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 0520BDE32E69E1BE003D0173 /* PreviewSupport */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		05F12C602E508CF30065F47A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +35,11 @@
 		05F12C522E508CF00065F47A /* Novel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Novel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		05F12C5F2E508CF30065F47A /* NovelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NovelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		05F12C692E508CF30065F47A /* NovelUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NovelUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		05F12C7D2E508EFB0065F47A /* NovelCore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = NovelCore; sourceTree = "<group>"; };
+		05F12C7E2E508F5E0065F47A /* NovelStorage */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = NovelStorage; sourceTree = "<group>"; };
+		05F12C7F2E508F7E0065F47A /* NovelUI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = NovelUI; sourceTree = "<group>"; };
+		05F12C802E508F940065F47A /* EditorKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = EditorKit; sourceTree = "<group>"; };
+		05F12CA12E517CFC0065F47A /* PreviewSupport */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = PreviewSupport; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -52,6 +65,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0520BDDE2E69E1BE003D0173 /* NovelCore in Frameworks */,
+				0520BDE22E69E1BE003D0173 /* NovelUI in Frameworks */,
+				0520BDE02E69E1BE003D0173 /* NovelStorage in Frameworks */,
+				0520BDE42E69E1BE003D0173 /* PreviewSupport in Frameworks */,
+				0520BDDC2E69E1BE003D0173 /* EditorKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,12 +90,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0520BDDA2E69E1BE003D0173 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		05F12C492E508CF00065F47A = {
 			isa = PBXGroup;
 			children = (
+				05F12CA12E517CFC0065F47A /* PreviewSupport */,
+				05F12C802E508F940065F47A /* EditorKit */,
+				05F12C7F2E508F7E0065F47A /* NovelUI */,
+				05F12C7E2E508F5E0065F47A /* NovelStorage */,
+				05F12C7D2E508EFB0065F47A /* NovelCore */,
 				05F12C542E508CF00065F47A /* Novel */,
 				05F12C622E508CF30065F47A /* NovelTests */,
 				05F12C6C2E508CF30065F47A /* NovelUITests */,
+				0520BDDA2E69E1BE003D0173 /* Frameworks */,
 				05F12C532E508CF00065F47A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -112,6 +143,11 @@
 			);
 			name = Novel;
 			packageProductDependencies = (
+				0520BDDB2E69E1BE003D0173 /* EditorKit */,
+				0520BDDD2E69E1BE003D0173 /* NovelCore */,
+				0520BDDF2E69E1BE003D0173 /* NovelStorage */,
+				0520BDE12E69E1BE003D0173 /* NovelUI */,
+				0520BDE32E69E1BE003D0173 /* PreviewSupport */,
 			);
 			productName = Novel;
 			productReference = 05F12C522E508CF00065F47A /* Novel.app */;
@@ -195,6 +231,13 @@
 			);
 			mainGroup = 05F12C492E508CF00065F47A;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				05003B282E61D9610033AEBD /* XCLocalSwiftPackageReference "EditorKit" */,
+				05003B292E61D96B0033AEBD /* XCLocalSwiftPackageReference "NovelCore" */,
+				05003B2A2E61D97A0033AEBD /* XCLocalSwiftPackageReference "NovelStorage" */,
+				05003B2B2E61D9840033AEBD /* XCLocalSwiftPackageReference "NovelUI" */,
+				05003B2C2E61D9960033AEBD /* XCLocalSwiftPackageReference "PreviewSupport" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 05F12C532E508CF00065F47A /* Products */;
 			projectDirPath = "";
@@ -563,6 +606,57 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		05003B282E61D9610033AEBD /* XCLocalSwiftPackageReference "EditorKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = EditorKit;
+		};
+		05003B292E61D96B0033AEBD /* XCLocalSwiftPackageReference "NovelCore" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = NovelCore;
+		};
+		05003B2A2E61D97A0033AEBD /* XCLocalSwiftPackageReference "NovelStorage" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = NovelStorage;
+		};
+		05003B2B2E61D9840033AEBD /* XCLocalSwiftPackageReference "NovelUI" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = NovelUI;
+		};
+		05003B2C2E61D9960033AEBD /* XCLocalSwiftPackageReference "PreviewSupport" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = PreviewSupport;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0520BDDB2E69E1BE003D0173 /* EditorKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 05003B282E61D9610033AEBD /* XCLocalSwiftPackageReference "EditorKit" */;
+			productName = EditorKit;
+		};
+		0520BDDD2E69E1BE003D0173 /* NovelCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 05003B292E61D96B0033AEBD /* XCLocalSwiftPackageReference "NovelCore" */;
+			productName = NovelCore;
+		};
+		0520BDDF2E69E1BE003D0173 /* NovelStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 05003B2A2E61D97A0033AEBD /* XCLocalSwiftPackageReference "NovelStorage" */;
+			productName = NovelStorage;
+		};
+		0520BDE12E69E1BE003D0173 /* NovelUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 05003B2B2E61D9840033AEBD /* XCLocalSwiftPackageReference "NovelUI" */;
+			productName = NovelUI;
+		};
+		0520BDE32E69E1BE003D0173 /* PreviewSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 05003B2C2E61D9960033AEBD /* XCLocalSwiftPackageReference "PreviewSupport" */;
+			productName = PreviewSupport;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 05F12C4A2E508CF00065F47A /* Project object */;
 }
