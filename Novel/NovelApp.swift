@@ -5,8 +5,8 @@
 //  Created by SerikaYuzuki on 2025/08/16.
 //
 
-import SwiftUI
 import NovelCore
+import SwiftUI
 
 @main
 struct NovelApp: App {
@@ -28,4 +28,3 @@ struct NovelApp: App {
         }
     }
 }
-

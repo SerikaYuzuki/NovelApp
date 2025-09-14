@@ -1,0 +1,21 @@
+//
+//  .gitignore
+//  Novel
+//
+//  Created by SerikaYuzuki on 2025/09/10.
+//
+
+# Xcode
+DerivedData/
+*.xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+
+# SwiftPM
+.build/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log

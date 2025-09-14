@@ -32,6 +32,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		052A41F92E71B67300B812EE /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		052A41FA2E71B69500B812EE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		05A80BB62E772D060029D898 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		05F12C522E508CF00065F47A /* Novel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Novel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		05F12C5F2E508CF30065F47A /* NovelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NovelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		05F12C692E508CF30065F47A /* NovelUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NovelUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -43,6 +46,11 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		052A41FB2E71C96B00B812EE /* .github */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = .github;
+			sourceTree = "<group>";
+		};
 		05F12C542E508CF00065F47A /* Novel */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Novel;
@@ -110,6 +118,10 @@
 				05F12C6C2E508CF30065F47A /* NovelUITests */,
 				0520BDDA2E69E1BE003D0173 /* Frameworks */,
 				05F12C532E508CF00065F47A /* Products */,
+				052A41FA2E71B69500B812EE /* README.md */,
+				052A41F92E71B67300B812EE /* .gitignore */,
+				05A80BB62E772D060029D898 /* Makefile */,
+				052A41FB2E71C96B00B812EE /* .github */,
 			);
 			sourceTree = "<group>";
 		};

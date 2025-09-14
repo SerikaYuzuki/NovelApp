@@ -1,0 +1,18 @@
+name: "🐞 Bug"
+description: バグ報告
+labels: ["bug"]
+body:
+  - type: input
+    id: env
+    attributes: { label: 環境, placeholder: macOS / Xcode / 端末など }
+    validations: { required: true }
+  - type: textarea
+    id: steps
+    attributes: { label: 再現手順, description: 手順を番号で }
+    validations: { required: true }
+  - type: textarea
+    id: expected
+    attributes: { label: 期待結果 }
+  - type: textarea
+    id: actual
+    attributes: { label: 実際の結果（ログ/スクショ歓迎） }

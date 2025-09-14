@@ -1,0 +1,42 @@
+#
+//  ci.yml
+//  Novel
+//
+//  Created by SerikaYuzuki on 2025/09/15.
+//
+
+name: CI
+on:
+  pull_request: { branches: ["main"] }
+  push: { branches: ["main"] }
+
+jobs:
+  build-test:
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      # （任意）Lintを使うならインストール。使わないならこのStepごと削除OK
+      - name: Install SwiftLint
+        run: |
+          brew update
+          brew install swiftlint
+
+      - name: Lint (optional)
+        run: |
+          if which swiftlint >/dev/null; then swiftlint; else echo "skip lint"; fi
+
+      - name: Build & Test
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -scheme Novel \
+            -destination 'platform=macOS' \
+            -disableAutomaticPackageResolution \
+            clean test | xcpretty
+        env:
+          NSUnbufferedIO: YES
+          
