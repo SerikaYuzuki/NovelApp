@@ -1,0 +1,39 @@
+name: Self-hosted smoke test
+
+on:
+  workflow_dispatch:  # 手動実行ボタンを出す
+
+jobs:
+  ping:
+    # あなたの Runner に合うラベルを並べる（例：mac のセルフホスト）
+    runs-on: [self-hosted, macOS]
+    timeout-minutes: 15
+    steps:
+      - name: Show runner context
+        run: |
+          echo "Runner name   : $RUNNER_NAME"
+          echo "Runner OS     : $RUNNER_OS"
+          echo "Runner arch   : $RUNNER_ARCH"
+          echo "Runner labels : $RUNNER_TRACKING_ID (see UI for full labels)"
+          uname -a
+          sw_vers || true
+          xcodebuild -version || true
+          which xcodebuild || true
+          which swift || true
+
+      - uses: actions/checkout@v4
+
+      - name: Print repo state
+        run: |
+          git status
+          git log --oneline -n 3 || true
+
+      # mac のXcodeビルドのドライラン（必要な人だけ）
+      - name: (Optional) Build dry run
+        if: ${{ runner.os == 'macOS' }}
+        run: |
+          # Xcodeのパス確認（複数ある場合は xcode-select で切替）
+          xcode-select -p
+          # スキーム名はあなたのプロジェクトのものに置換
+          set -o pipefail
+          xcodebuild -list -project Novel.xcodeproj || true
