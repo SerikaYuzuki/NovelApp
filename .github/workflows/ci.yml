@@ -19,7 +19,7 @@ jobs:
 
       # （任意）Lintを使うならインストール。使わないならこのStepごと削除OK
       - name: Install SwiftLint
-        run: |
+          run: |
             export HOMEBREW_NO_AUTO_UPDATE=1
             if ! command -v swiftlint >/dev/null; then
               brew install swiftlint || echo "::notice ::brew install swiftlint failed (skipped)"
