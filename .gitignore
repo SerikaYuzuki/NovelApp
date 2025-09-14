@@ -19,3 +19,5 @@ DerivedData/
 
 # Logs
 *.log
+
+actions-runner/
