@@ -29,11 +29,12 @@ struct ContentView: View {
                 .onMove(perform: moveChapters)
             }
         } detail: {
-            if let ch = state.selectedChapter {
-                EditorView { SimpleEditorAdapter() } // Step1は仮
-                    .overlay(alignment: .topLeading) {
-                        Text(ch.title).font(.headline).padding(8)
-                    }
+            if let _ = state.selectedChapter {
+                let binding = Binding<String>(
+                    get: { state.selectedChapter?.content ?? "" },
+                    set: { state.updateSelectedChapterContent($0) }
+                )
+                EditorView(text: binding) // ← これだけで双方向同期！
             } else {
                 Text("章を選択してください").foregroundStyle(.secondary)
             }
