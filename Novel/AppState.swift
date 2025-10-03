@@ -20,4 +20,9 @@ final class AppState {
         guard let id = selection else { return nil }
         return document.chapters.first { $0.id == id }
     }
+    
+    func updateSelectedChapterContent(_ newText: String) {
+        guard let id = selection, let idx = document.chapters.firstIndex(where: { $0.id == id }) else { return }
+        document.chapters[idx].content = newText
+    }
 }
