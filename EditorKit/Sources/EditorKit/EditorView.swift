@@ -1,17 +1,16 @@
-//
-//  EditorView.swift
-//  EditorKit
-//
-//  Created by SerikaYuzuki on 2025/08/17.
-//
+/**
+ EditorKit の macOS 向けテキスト編集ビューとアダプタの実装。
 
-/// macOS向けのテキストエディタビューを提供します。
-/// SwiftUI環境で利用可能なカスタマイズ可能なテキスト編集コンポーネントです。
+ - Important: このファイルは macOS 専用の実装です。`NSViewRepresentable` と `NSTextView` を使用します。
+ - SeeAlso: `EditorAdapter`, `EditorView`
+ */
 
 import SwiftUI
 
 /// テキスト編集ビュー用のアダプタプロトコル。
-/// バッキングストアとしてのテキスト取得・設定を定義します。
+/// `EditorView` が利用するバッキングストアの読み書きを定義します。
+///
+/// - Note: 実装はスレッドセーフである必要はありません。`EditorView` からの呼び出しはメインスレッドで行われます。
 public protocol EditorAdapter: AnyObject {
     /// テキストをアダプターに設定します。
     /// - Parameter text: 設定するテキスト
@@ -22,6 +21,7 @@ public protocol EditorAdapter: AnyObject {
 }
 
 /// 最も単純なEditorAdapter実装。インメモリでテキストを保持します。
+/// - Note: データはプロセス内メモリにのみ保持され、永続化は行いません。
 public final class SimpleEditorAdapter: EditorAdapter {
     /// 保持中のテキスト内容
     private var text: String = ""
@@ -38,8 +38,11 @@ public final class SimpleEditorAdapter: EditorAdapter {
     public func getText() -> String { text }
 }
 
-/// SwiftUIで利用可能なmacOS用テキストエディタビュー。
-/// EditorAdapterによるカスタマイズに対応します。
+/// SwiftUI で利用可能な macOS 向けテキストエディタビュー。
+/// `NSTextView` をラップし、`Binding<String>` と `EditorAdapter` を通じて
+/// テキストの双方向同期とカスタマイズ可能なバッキングストアを提供します。
+///
+/// - SeeAlso: ``EditorAdapter``
 public struct EditorView: NSViewRepresentable {
     /// 編集テキストのバインディング
     @Binding private var text: String
@@ -48,6 +51,13 @@ public struct EditorView: NSViewRepresentable {
     /// アダプターのインスタンス生成クロージャ
     private let adapterFactory: () -> EditorAdapter
     
+    /// 新しい `EditorView` を作成します。
+    ///
+    /// - Parameters:
+    ///   - text: 編集対象テキストの `Binding`。ユーザー操作やプログラム更新と双方向に同期されます。
+    ///   - isEditable: テキストが編集可能かどうか。既定値は `true`。
+    ///   - adapterFactory: バッキングストアを提供する ``EditorAdapter`` を生成するクロージャ。
+    ///     既定では ``SimpleEditorAdapter`` を使用します。
     public init(
         text: Binding<String>,
         isEditable: Bool = true,
@@ -58,13 +68,21 @@ public struct EditorView: NSViewRepresentable {
         self.adapterFactory = adapterFactory
     }
     
-    /// 内部コーディネーター。アダプターの参照を管理します。
+    /// 内部コーディネーター。
+    /// `NSTextView` のデリゲートとしてイベントを受け取り、`Binding` とアダプターへの
+    /// 同期を仲介します。
     public final class Coordinator: NSObject, NSTextViewDelegate {
+        /// ラップしている `NSTextView` への弱参照。
         weak var textView: NSTextView?
+        /// SwiftUI 側のテキスト `Binding`。
         @Binding var text: String
+        /// プログラムによる更新中かどうかのフラグ。無限ループ更新を防ぎます。
         var isProgrammaticUpdate = false
+        /// 直近に反映したテキストのスナップショット。
         var currentText: String
+        /// 変更のバッファリングに使用するディスパッチワーク。高速入力時の過剰更新を抑制します。
         private var pendingPush: DispatchWorkItem?
+        /// バッキングストアを提供するアダプター。
         var adapter: EditorAdapter?
         
         init (text: Binding<String>, adapter: EditorAdapter) {
@@ -73,6 +91,21 @@ public struct EditorView: NSViewRepresentable {
             self.adapter = adapter
         }
         
+        /// プログラムからテキストを適用し、ユーザー入力イベントとしては扱わないようにします。
+        ///
+        /// - Parameter newValue: 適用する新しい文字列。
+        @MainActor func applyProgrammatic (text newValue: String){
+            guard let tv = textView else { return }
+            isProgrammaticUpdate = true
+            tv.string = newValue
+            currentText = newValue
+            isProgrammaticUpdate = false
+        }
+        
+        /// テキスト変更時に呼び出されます。IME 確定前の変更やプログラム更新は無視し、
+        /// 適切なタイミングで `Binding` とアダプターへ変更を反映します。
+        ///
+        /// - Parameter notification: `NSTextView` の変更通知。
         public func textDidChange(_ notification: Notification) {
             guard let tv =  textView else { return }
             
@@ -130,16 +163,23 @@ public struct EditorView: NSViewRepresentable {
         return scrollView
     }
 
-    /// ビューの状態を最新に更新します。（未実装）
+    /// 既存の `NSScrollView`/`NSTextView` を最新の状態に更新します。
+    /// 編集可否を反映し、`Binding` の変更がビューに未反映の場合のみ
+    /// プログラム的にテキストを適用します（IME 確定前は適用しません）。
+    ///
     /// - Parameters:
-    ///   - view: 現在のNSScrollView
-    ///   - context: SwiftUIコンテキスト
+    ///   - view: ラップしている `NSScrollView`。
+    ///   - context: SwiftUI のコンテキスト。
     public func updateNSView(_ view: NSScrollView, context: Context) {
         guard let tv = context.coordinator.textView else { return }
         
         tv.isEditable = isEditable
         
-        if context.coordinator.currentText != text {
+        if context.coordinator.isProgrammaticUpdate == false,
+           context.coordinator.currentText != text,
+           !tv.hasMarkedText()
+        {
+            context.coordinator.applyProgrammatic(text: text)
         }
     }
 }
@@ -181,3 +221,4 @@ public struct EditorView: NSViewRepresentable {
     // プレビューにコンテナViewを表示します
     return EditorPreviewContainer()
 }
+
