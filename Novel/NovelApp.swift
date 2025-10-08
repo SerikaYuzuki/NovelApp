@@ -22,6 +22,7 @@ struct NovelApp: App {
                         state.document = loaded
                     }
                 }
+                // MARK: TODOがあります
                 // TODO: 現状は更新のたびにスナップショットが更新されるような形になっているが、一定時間間隔でスナップショットの保存、画面更新時のスナップショットの自動保存・削除を実装する
                 .onChange(of: state.document, initial: false) { oldValue, newValue in
                     try? deps.repo.save(newValue)
